@@ -485,7 +485,9 @@ getAndParseGSEMatrices <- function(GEO,destdir,AnnotGPL,getGPL=TRUE,parseCharact
 #' @keywords internal
 #' 
 parseGSEMatrix <- function(fname,AnnotGPL=FALSE,destdir=tempdir(),getGPL=TRUE,parseCharacteristics=TRUE) {
-    dat <- read_lines(fname)
+    x <- scan(fn, what = 'character', sep = '\n', quote='"')
+    # get rid of new lines inside the fields, as they mess up the analysis
+    dat <- gsub('\n', '', x)
     ## get the number of !Series and !Sample lines
     series_header_row_count <- sum(grepl("^!Series_", dat))
     # In the case of ^M in the metadata (GSE781, for example), the line counts
