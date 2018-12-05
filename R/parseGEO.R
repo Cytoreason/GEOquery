@@ -3,14 +3,14 @@
 
 
 #' Parse GEO text
-#' 
+#'
 #' Workhorse GEO parsers.
-#' 
+#'
 #' These are probably not useful to the end-user.  Use getGEO to access these
 #' functions.  parseGEO simply delegates to the appropriate specific parser.
 #' There should be no reason to use the parseGPL, parseGDS, parseGSE, or
 #' parseGSM functions directly.
-#' 
+#'
 #' @aliases parseGEO parseGPL parseGSE parseGDS parseGSM
 #' @param fname The filename of a SOFT format file.  If the filename ends in
 #' .gz, a gzfile() connection is used to read the file directly.
@@ -26,7 +26,7 @@
 #' @author Sean Davis
 #' @seealso \code{\link{getGEO}}
 #' @keywords IO
-#' 
+#'
 #' @export
 parseGEO <- function(fname,GSElimits,destdir=tempdir(),AnnotGPL=FALSE,getGPL=TRUE) {
     con <- fileOpen(fname)
@@ -151,7 +151,7 @@ parseGeoColumns <- function(txt) {
         }
         dat3 <- fastTabRead(con,n=nLinesToRead)
         geoDataTable <- new('GEODataTable',columns=cols,table=dat3[1:(nrow(dat3)-1),])
-    } 
+    }
     gsm <- new('GSM',
                header=meta,
                dataTable = geoDataTable)
@@ -185,7 +185,7 @@ filegrep <-
             }
             i <- i+length(lines)
         }
-        return(ret) 
+        return(ret)
     }
 
 #' @importFrom readr read_lines
@@ -335,7 +335,7 @@ parseGDS <- function(fname) {
         }
         dat3 <- fastTabRead(con,n=nLinesToRead,quote='')
         geoDataTable <- new('GEODataTable',columns=cols,table=dat3[1:(nrow(dat3)-1),])
-    } 
+    }
     gpl <- new('GPL',
                header=meta,
                dataTable = geoDataTable)
@@ -363,14 +363,14 @@ parseGDS <- function(fname) {
                dataTable = geoDataTable)
     return(geo)
 }
-    
+
 
 #' @importFrom readr read_lines
 parseGSM <- function(fname) {
     txt = read_lines(fname)
     # read_lines reads separate blank lines
-    # on windows, so remove them before 
-    # proceeding. NOT doing so results in 
+    # on windows, so remove them before
+    # proceeding. NOT doing so results in
     # the Table header being repeated as the
     # first line of the Table and test failures
     # galore.
@@ -386,7 +386,7 @@ GPLcache <- new.env(parent=emptyenv())
 #' @importFrom readr read_tsv
 .parseGPLTxt <- function(txt) {
     tbl_begin = grep('!\\w+_table_begin',txt,perl=TRUE)
-    
+
     if(length(tbl_begin>0)) {
         tbltxt = txt[(tbl_begin[1]+1):length(txt)]
         txt = txt[1:tbl_begin[1]]
@@ -419,15 +419,15 @@ parseGPL <- function(fname) {
     }
     txt = read_lines(fname)
     # read_lines reads separate blank lines
-    # on windows, so remove them before 
-    # proceeding. NOT doing so results in 
+    # on windows, so remove them before
+    # proceeding. NOT doing so results in
     # the Table header being repeated as the
     # first line of the Table and test failures
     # galore.
     txt = txt[txt != '']
     return(.parseGPLTxt(txt))
 }
-    
+
 
 txtGrab <- function(regex,x) {
     x <- as.character(x)
@@ -483,7 +483,7 @@ getAndParseGSEMatrices <- function(GEO,destdir,AnnotGPL,getGPL=TRUE,parseCharact
 #' @param getGPL whether or not to get the GPL associated
 #' @param parseCharacteristics Whether or not to do full "characteristic" parsing
 #' @keywords internal
-#' 
+#'
 parseGSEMatrix <- function(fname,AnnotGPL=FALSE,destdir=tempdir(),getGPL=TRUE,parseCharacteristics=TRUE) {
     x <- scan(fname, what = 'character', sep = '\n', quote='"')
     # get rid of new lines inside the fields, as they mess up the analysis
@@ -505,7 +505,7 @@ parseGSEMatrix <- function(fname,AnnotGPL=FALSE,destdir=tempdir(),getGPL=TRUE,pa
     header <- read.table(fname,sep="\t",header=FALSE,nrows=series_header_row_count)
     tmpdat <- read.table(fname,sep="\t",header=FALSE,nrows=samples_header_row_count,
                          skip=sample_header_start-1)
-    
+
     headertmp <- t(header)
     headerdata <- rbind(data.frame(), headertmp[-1,])
     colnames(headerdata) <- sub('!Series_','',as.character(header[,1]))
@@ -513,23 +513,23 @@ parseGSEMatrix <- function(fname,AnnotGPL=FALSE,destdir=tempdir(),getGPL=TRUE,pa
                            function(x) {
                              as.character(Reduce(function (a,b) {paste(a,b,sep = "\n")}, x))
                            })
-    
+
     link = "https://www.ncbi.nlm.nih.gov/geo/"
     if (!is.null(headerlist$web_link)) {
       link <- headerlist$web_link
     } else if (!is.null(headerlist$geo_accession)) {
       link <- paste(link, 'query/acc.cgi?acc=', headerlist$geo_accession, sep="")
     }
-    
+
     ed <- new ("MIAME",
                name = ifelse(is.null(headerlist$contact_name), '', headerlist$contact_name),
                title = headerlist$title,
                contact = ifelse(is.null(headerlist$contact_email), '', headerlist$contact_email),
-               pubMedIds = ifelse(is.null(headerlist$pubmed_id), '', headerlist$pubmed_id), 
+               pubMedIds = ifelse(is.null(headerlist$pubmed_id), '', headerlist$pubmed_id),
                abstract = ifelse(is.null(headerlist$summary), '', headerlist$summary),
                url = link,
                other = headerlist)
-    
+
     tmptmp <- t(tmpdat)
     sampledat <- rbind(data.frame(),tmptmp[-1,])
     colnames(sampledat) <- make.unique(sub('!Sample_','',as.character(tmpdat[,1])))
@@ -551,9 +551,9 @@ parseGSEMatrix <- function(fname,AnnotGPL=FALSE,destdir=tempdir(),getGPL=TRUE,pa
             tidyr::gather(characteristics, kvpair, -accession) %>%
             dplyr::filter(grepl(':',kvpair) && !is.na(kvpair))
         # Thx to Mike Smith (@grimbough) for this code
-        # sometimes the "characteristics_ch1" fields are empty and contain no 
+        # sometimes the "characteristics_ch1" fields are empty and contain no
         # key:value pairs. spread() will fail when called on an
-        # empty data_frame.  We catch this case and remove the 
+        # empty data_frame.  We catch this case and remove the
         # "charactics_ch1" column instead
         if(nrow(pd)) {
             pd = dplyr::mutate(pd, characteristics=ifelse(grepl('_ch2',characteristics),'ch2','ch1')) %>%
@@ -566,11 +566,11 @@ parseGSEMatrix <- function(fname,AnnotGPL=FALSE,destdir=tempdir(),getGPL=TRUE,pa
                 unique() %>%
                 tidyr::spread(k,v)
         } else {
-            pd = pd %>% 
+            pd = pd %>%
                 dplyr::select(accession)
         }
         ##     dplyr::mutate(characteristics=ifelse(grepl('_ch2',characteristics),'ch2','ch1')) %>%
-        ##     dplyr::filter(grepl(':',kvpair)) %>% 
+        ##     dplyr::filter(grepl(':',kvpair)) %>%
         ##     tidyr::separate(kvpair, into= c('k','v'), sep=":")
         ## if(nrow(pd)>0) {
         ##     pd = pd %>% dplyr::mutate(k = paste(k,characteristics,sep=":")) %>%
@@ -578,19 +578,20 @@ parseGSEMatrix <- function(fname,AnnotGPL=FALSE,destdir=tempdir(),getGPL=TRUE,pa
         ##         tidyr::spread(k,v)
         sampledat = sampledat %>% dplyr::left_join(pd,by=c('geo_accession'='accession'))
     }
-    
+
     ## used to be able to use colclasses, but some SNP arrays provide only the
     ## genotypes in AA AB BB form, so need to switch it up....
     ##  colClasses <- c('character',rep('numeric',nrow(sampledat)))
-    datamat <- read_tsv(fname,quote='"',
-                        na=c('NA','null','NULL','Null'), 
+    series_table_begin_line2 <- grep("^!series_matrix_table_begin", readLines(fname, n = series_table_begin_line + 10L))
+    datamat <- read.delim(fname, quote='"', sep = "\t",
+                        na.strings = c('NA','null','NULL','Null'),
                         # somewhere in the past month or so, read_tsv changed
                         # the way it dealt with skip!!! Had to add the -1 to
                         # avoid the problem.
-                        skip = series_table_begin_line-1,
-                        comment = '!series_matrix_table_end')
+                        skip = series_table_begin_line2,
+                        comment = '!')
     tmprownames = datamat[[1]]
-                                        # need the as.matrix for single-sample or empty GSE
+    # need the as.matrix for single-sample or empty GSE
     datamat <- as.matrix(datamat[!is.na(tmprownames),-1])
     rownames(datamat) <- tmprownames[!is.na(tmprownames)]
     datamat <- as.matrix(datamat)
