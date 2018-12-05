@@ -8,8 +8,3 @@ warnings_are_errors: false
 after_success:
   - Rscript -e 'covr::codecov()'
 
-notifications:
-  email:
-    on_success: seandavi@gmail.com
-    on_failure: seandavi@gmail.com
-
