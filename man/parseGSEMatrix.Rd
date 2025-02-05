@@ -4,8 +4,13 @@
 \alias{parseGSEMatrix}
 \title{Parse a GSE mstrix file}
 \usage{
-parseGSEMatrix(fname, AnnotGPL = FALSE, destdir = tempdir(),
-  getGPL = TRUE, parseCharacteristics = TRUE)
+parseGSEMatrix(
+  fname,
+  AnnotGPL = FALSE,
+  destdir = tempdir(),
+  getGPL = TRUE,
+  parseCharacteristics = TRUE
+)
 }
 \arguments{
 \item{fname}{filename}
@@ -16,7 +21,7 @@ parseGSEMatrix(fname, AnnotGPL = FALSE, destdir = tempdir(),
 
 \item{getGPL}{whether or not to get the GPL associated}
 
-\item{parseCharacteristics}{Whether or not to do full "characteristic" parsing}
+\item{parseCharacteristics}{Whether or not to do full 'characteristic' parsing}
 }
 \description{
 Not meant for user calling, but parses

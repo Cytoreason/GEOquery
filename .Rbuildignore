@@ -3,3 +3,11 @@
 ^\.travis\.yml$
 ^\.httr-oauth$
 ^appveyor\.yml$
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+CODE_OF_CONDUCT.md
+.lintr
+Dockerfile
+^LICENSE\.md$

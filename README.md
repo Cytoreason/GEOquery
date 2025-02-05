@@ -1,27 +1,28 @@
-|     Servicd     |   Status      |
-|-----------------|---------------|
-| Travis (Linux)         | [![Travis Build Status](https://api.travis-ci.org/seandavi/GEOquery.svg?branch=master)](https://travis-ci.org/seandavi/GEOquery) |
-| CodeCov         | [![codecov](https://codecov.io/gh/seandavi/GEOquery/branch/master/graph/badge.svg)](https://codecov.io/gh/seandavi/GEOquery) |
-| Appveyor (Windows)        | [![AppVeyor](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true) |
+## Status
 
-
-
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/seandavi/GEOquery/workflows/R-CMD-check/badge.svg)](https://github.com/seandavi/GEOquery/actions)
+[![Downloads](https://bioconductor.org/shields/downloads/release/GEOquery.svg)](https://bioconductor.org/packages/GEOquery)
+[![Years in Bioc](https://bioconductor.org/shields/years-in-bioc/GEOquery.svg)](https://bioconductor.org/packages/GEOquery)
+[![R-CMD-check](https://github.com/seandavi/GEOquery/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/seandavi/GEOquery/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 ## Installation
 
 To install from Bioconductor, use the following code:
 
-```{r}
-if (!requireNamespace("BiocManager", quietly=TRUE))
-    install.packages("BiocManager")
+```
+# if needed, install BiocManager
+install.packages("BiocManager")
+
+# install GEOquery
 BiocManager::install("GEOquery")
 ```
 
 To install directly from github:
 
-```{r}
-library(devtools)
-install_github('GEOquery','seandavi')
+```
+BiocManager::install('seandavi/GEOquery')
 ```
 
 ## Usage
@@ -30,3 +31,7 @@ See the full vignette in [rmarkdown](https://github.com/seandavi/GEOquery/blob/m
 
 - [Release version](http://www.bioconductor.org/packages/release/bioc/html/GEOquery.html)
 - [Devel version](http://www.bioconductor.org/packages/devel/bioc/html/GEOquery.html)
+
+## How to contribute
+
+Contributions to GEOquery development can be submitted as a [pull request](https://github.com/seandavi/GEOquery/pulls) or a [feature request issue](https://github.com/seandavi/GEOquery/issues). We recommend following the [Bioconductor coding standards](https://contributions.bioconductor.org/r-code.html) where possible.  
