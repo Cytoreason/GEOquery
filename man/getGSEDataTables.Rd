@@ -24,7 +24,7 @@ GSE record and parses out the data tables into R data.frames.
 }
 \examples{
 
-dfl = getGSEDataTables("GSE3494")
+dfl = getGSEDataTables('GSE3494')
 lapply(dfl,head)
 
 
@@ -33,6 +33,6 @@ lapply(dfl,head)
 \code{\link{getGEO}}
 }
 \author{
-Sean Davis <sdavis2@mail.nih.gov>
+Sean Davis \href{mailto:sdavis2@mail.nih.gov}{sdavis2@mail.nih.gov}
 }
 \keyword{IO}

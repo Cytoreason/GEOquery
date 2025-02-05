@@ -4,13 +4,18 @@
 \alias{getGEOSuppFiles}
 \title{Get Supplemental Files from GEO}
 \usage{
-getGEOSuppFiles(GEO, makeDirectory = TRUE, baseDir = getwd(),
-  fetch_files = TRUE, filter_regex = NULL)
+getGEOSuppFiles(
+  GEO,
+  makeDirectory = TRUE,
+  baseDir = getwd(),
+  fetch_files = TRUE,
+  filter_regex = NULL
+)
 }
 \arguments{
 \item{GEO}{A GEO accession number such as GPL1073 or GSM1137}
 
-\item{makeDirectory}{Should a "subdirectory" for the downloaded files be
+\item{makeDirectory}{Should a 'subdirectory' for the downloaded files be
 created?  Default is TRUE.  If FALSE, the files will be downloaded directly
 into the baseDir.}
 
@@ -35,7 +40,7 @@ If fetch_files=FALSE, a data.frame of URLs and filenames is returned.
 }
 \description{
 NCBI GEO allows supplemental files to be attached to GEO Series (GSE), GEO
-platforms (GPL), and GEO samples (GSM).  This function "knows" how to get
+platforms (GPL), and GEO samples (GSM).  This function 'knows' how to get
 these files based on the GEO accession.  No parsing of the downloaded files
 is attempted, since the file format is not generally knowable by the
 computer.
@@ -50,7 +55,7 @@ a
 
 }
 \author{
-Sean Davis <sdavis2@mail.nih.gov>
+Sean Davis \href{mailto:sdavis2@mail.nih.gov}{sdavis2@mail.nih.gov}
 }
 \keyword{IO}
 \keyword{database}
